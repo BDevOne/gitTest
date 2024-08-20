@@ -14,23 +14,19 @@ namespace gitTeste
         {
             Users dadosUsuarios = new Users();
 
-            /*while ()}*/
-            {
-                Console.WriteLine($"\nDados do Usuário\n");
-                Console.Write("Nome Usuário: ");
-                dadosUsuarios.Nome = Console.ReadLine();
+            Console.WriteLine($"\nDados do Usuário\n");
+            Console.Write("Nome Usuário: ");
+            dadosUsuarios.Nome = Console.ReadLine();
 
-                Console.Write("CPF Usuário: ");
-                dadosUsuarios.Cpf = Console.ReadLine();
-                dadosUsuarios.validacaoCpf();
+            Console.Write("CPF Usuário: ");
+            dadosUsuarios.Cpf = Console.ReadLine();
+            dadosUsuarios.validacaoCpf();
 
-                Console.Write("Idade Usuário: ");
-                dadosUsuarios.Idade = int.Parse(Console.ReadLine());
-                dadosUsuarios.validarIdade();
+            Console.Write("Idade Usuário: ");
+            dadosUsuarios.Idade = int.Parse(Console.ReadLine());
+            dadosUsuarios.validarIdade();
 
-                listaCadastros.Add(dadosUsuarios);
-            
-            
+            listaCadastros.Add(dadosUsuarios);
 
             gerarListaUsuarios(listaCadastros);
         }
