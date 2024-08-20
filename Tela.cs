@@ -14,7 +14,7 @@ namespace gitTeste
         {
             Users dadosUsuarios = new Users();
 
-            /*while ()
+            /*while ()}*/
             {
                 Console.WriteLine($"\nDados do Usuário\n");
                 Console.Write("Nome Usuário: ");
@@ -29,7 +29,7 @@ namespace gitTeste
                 dadosUsuarios.validarIdade();
 
                 listaCadastros.Add(dadosUsuarios);
-            }*/
+            
             
 
             gerarListaUsuarios(listaCadastros);
