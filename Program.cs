@@ -1,7 +1,12 @@
-﻿class Program
+﻿using gitTeste;
+
+class Program
 {
     static void Main(string[] args)
     {
-        Console.WriteLine("Teste");
+        Users usuario = new Users();
+
+        usuario.Idade = 0;
+        
     }
 }
