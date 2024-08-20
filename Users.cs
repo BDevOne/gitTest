@@ -10,12 +10,29 @@ namespace gitTeste
     {
         public string? Nome { get; set; }
         public int Idade { get; set; }
+        public string? Cpf { get; set; }
 
-        public Users(string nome, int idade)
+        public string validacaoCpf()
         {
-            Nome = nome;
-            Idade = idade;
+            Cpf.Replace(".", "").Replace("-", "");
+
+            if (!string.IsNullOrWhiteSpace(Cpf) && Cpf.Length == 11)
+            {
+                Cpf.Insert(3, ".").Insert(7, ".").Insert(11, "-");
+                return Cpf;
+            }
+            return Cpf;
         }
+
+        public int validarIdade()
+        {
+            if (Idade >= 18)
+            {
+                return Idade;
+            }
+            return Idade;
+        }
+
     }
 
 }

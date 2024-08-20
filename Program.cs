@@ -4,14 +4,8 @@ class Program
 {
     static void Main(string[] args)
     {
-        Users usuario = new Users("Pedro", 18);
+        Tela tela = new Tela();
 
-        var Idade = usuario.Idade;
-
-        if (Idade != 0)
-        {
-            Console.WriteLine("Teste");
-        }
-
+        tela.TelaLogin();
     }
 }
