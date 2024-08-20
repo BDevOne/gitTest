@@ -1,0 +1,15 @@
+C:\Users\pedro.carvalho\Desktop\gitTeste\bin\Debug\net8.0\gitTeste.exe
+C:\Users\pedro.carvalho\Desktop\gitTeste\bin\Debug\net8.0\gitTeste.deps.json
+C:\Users\pedro.carvalho\Desktop\gitTeste\bin\Debug\net8.0\gitTeste.runtimeconfig.json
+C:\Users\pedro.carvalho\Desktop\gitTeste\bin\Debug\net8.0\gitTeste.dll
+C:\Users\pedro.carvalho\Desktop\gitTeste\bin\Debug\net8.0\gitTeste.pdb
+C:\Users\pedro.carvalho\Desktop\gitTeste\obj\Debug\net8.0\gitTeste.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\pedro.carvalho\Desktop\gitTeste\obj\Debug\net8.0\gitTeste.AssemblyInfoInputs.cache
+C:\Users\pedro.carvalho\Desktop\gitTeste\obj\Debug\net8.0\gitTeste.AssemblyInfo.cs
+C:\Users\pedro.carvalho\Desktop\gitTeste\obj\Debug\net8.0\gitTeste.csproj.CoreCompileInputs.cache
+C:\Users\pedro.carvalho\Desktop\gitTeste\obj\Debug\net8.0\gitTeste.sourcelink.json
+C:\Users\pedro.carvalho\Desktop\gitTeste\obj\Debug\net8.0\gitTeste.dll
+C:\Users\pedro.carvalho\Desktop\gitTeste\obj\Debug\net8.0\refint\gitTeste.dll
+C:\Users\pedro.carvalho\Desktop\gitTeste\obj\Debug\net8.0\gitTeste.pdb
+C:\Users\pedro.carvalho\Desktop\gitTeste\obj\Debug\net8.0\gitTeste.genruntimeconfig.cache
+C:\Users\pedro.carvalho\Desktop\gitTeste\obj\Debug\net8.0\ref\gitTeste.dll

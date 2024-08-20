@@ -4,9 +4,14 @@ class Program
 {
     static void Main(string[] args)
     {
-        Users usuario = new Users();
+        Users usuario = new Users("Pedro", 18);
 
-        usuario.Idade = 0;
-        
+        var Idade = usuario.Idade;
+
+        if (Idade != 0)
+        {
+            Console.WriteLine("Teste");
+        }
+
     }
 }
