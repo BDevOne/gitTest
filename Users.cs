@@ -14,11 +14,11 @@ namespace gitTeste
 
         public string validacaoCpf()
         {
-            Cpf.Replace(".", "").Replace("-", "");
+            Cpf = Cpf.Replace(".", "").Replace("-", "");
 
             if (!string.IsNullOrWhiteSpace(Cpf) && Cpf.Length == 11)
             {
-                Cpf.Insert(3, ".").Insert(7, ".").Insert(11, "-");
+                Cpf = Cpf.Insert(3, ".").Insert(7, ".").Insert(11, "-");
                 return Cpf;
             }
             return Cpf;

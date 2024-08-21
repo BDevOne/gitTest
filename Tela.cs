@@ -12,26 +12,35 @@ namespace gitTeste
 
         public void TelaLogin()
         {
-            Users dadosUsuarios = new Users();
+            string seguirRegistro = "S";
 
-            Console.WriteLine($"\nDados do Usuário\n");
-            Console.Write("Nome Usuário: ");
-            dadosUsuarios.Nome = Console.ReadLine();
+            while (seguirRegistro.ToUpper() == "S")
+            {
+                Users dadosUsuarios = new Users();
 
-            Console.Write("CPF Usuário: ");
-            dadosUsuarios.Cpf = Console.ReadLine();
-            dadosUsuarios.validacaoCpf();
+                Console.WriteLine($"\nDados do Usuário\n");
+                Console.Write("Nome Usuário: ");
+                dadosUsuarios.Nome = Console.ReadLine();
 
-            Console.Write("Idade Usuário: ");
-            dadosUsuarios.Idade = int.Parse(Console.ReadLine());
-            dadosUsuarios.validarIdade();
+                Console.Write("CPF Usuário: ");
+                dadosUsuarios.Cpf = Console.ReadLine();
+                dadosUsuarios.validacaoCpf();
 
-            listaCadastros.Add(dadosUsuarios);
+                Console.Write("Idade Usuário: ");
+                dadosUsuarios.Idade = int.Parse(Console.ReadLine());
+                dadosUsuarios.validarIdade();
 
-            gerarListaUsuarios(listaCadastros);
+                listaCadastros.Add(dadosUsuarios);
+
+                seguirRegistro = SeguirCadastro();
+
+            }
+
+            GenerateUserList(listaCadastros);
+            SearchUser();
         }
 
-        public string seguirCadastro()
+        public string SeguirCadastro()
         {
             Console.Write("Deseja cadastrar mais usuários: S/N");
             var seguirCadastro = Console.ReadLine();
@@ -40,10 +49,10 @@ namespace gitTeste
             {
                 return seguirCadastro;
             }
-            return seguirCadastro;
+            return seguirCadastro ?? VerificarValor(null);
         }
 
-        public void gerarListaUsuarios(List<Users> listaCadastros)
+        public void GenerateUserList(List<Users> listaCadastros)
         {
             foreach (var user in listaCadastros)
             {
@@ -58,9 +67,26 @@ namespace gitTeste
 
         }
 
-        public void Response()
+        public string SearchUser()
         {
+            Console.Write("Informe Nome do usuário que deseja procurar: ");
+            var requestUser = Console.ReadLine();
+            if (!string.IsNullOrEmpty(requestUser)) // melhorar esse cadastros, está com erro.
+            {
+                Users requestNameUser = listaCadastros.First(u => u.Nome == requestUser); // Erro ao passar valor nulo
 
+                if (requestNameUser != null)
+                {
+                    Console.WriteLine($"{requestNameUser.Nome}");
+                    return requestNameUser.Nome;
+                }
+            }
+            return VerificarValor(null);
+        }
+
+        public string VerificarValor(string valueNull)
+        {
+            return valueNull ?? "Operação falhou, informe um valor válido!!";
         }
     }
 }
