@@ -42,14 +42,14 @@ namespace gitTeste
 
         public string SeguirCadastro()
         {
-            Console.Write("Deseja cadastrar mais usuários: S/N");
+            Console.Write("Deseja cadastrar mais usuários (S/N): ");
             var seguirCadastro = Console.ReadLine();
 
             if (!string.IsNullOrEmpty(seguirCadastro) && seguirCadastro.ToUpper() == "S")
             {
                 return seguirCadastro;
             }
-            return seguirCadastro ?? VerificarValor(null);
+            return seguirCadastro ?? "Valor nulo";
         }
 
         public void GenerateUserList(List<Users> listaCadastros)
@@ -71,17 +71,24 @@ namespace gitTeste
         {
             Console.Write("Informe Nome do usuário que deseja procurar: ");
             var requestUser = Console.ReadLine();
-            if (!string.IsNullOrEmpty(requestUser)) // melhorar esse cadastros, está com erro.
+
+            if (string.IsNullOrEmpty(requestUser))
+            {
+                requestUser = VerificarValor(null);
+                Console.WriteLine(requestUser);
+                return requestUser;
+            }
+            if (!string.IsNullOrEmpty(requestUser)) // melhorar esse busca, está com erro.
             {
                 Users requestNameUser = listaCadastros.First(u => u.Nome == requestUser); // Erro ao passar valor nulo
 
                 if (requestNameUser != null)
                 {
                     Console.WriteLine($"{requestNameUser.Nome}");
-                    return requestNameUser.Nome;
+                    return requestNameUser.Nome ?? "Valor nulo";
                 }
             }
-            return VerificarValor(null);
+            return requestUser;
         }
 
         public string VerificarValor(string valueNull)
