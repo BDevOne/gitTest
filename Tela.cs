@@ -32,24 +32,24 @@ namespace gitTeste
 
                 listaCadastros.Add(dadosUsuarios);
 
-                seguirRegistro = SeguirCadastro();
-
+                seguirRegistro = SeguirCadastro(seguirRegistro);
+                
             }
 
             GenerateUserList(listaCadastros);
             SearchUser();
         }
 
-        public string SeguirCadastro()
+        public string SeguirCadastro(string seguirCadastro)
         {
             Console.Write("Deseja cadastrar mais usuários (S/N): ");
-            var seguirCadastro = Console.ReadLine();
+            seguirCadastro = Console.ReadLine();
 
             if (!string.IsNullOrEmpty(seguirCadastro) && seguirCadastro.ToUpper() == "S")
             {
                 return seguirCadastro;
             }
-            return seguirCadastro ?? "Valor nulo";
+            return seguirCadastro ?? "Operação Encerrada";
         }
 
         public void GenerateUserList(List<Users> listaCadastros)
@@ -85,7 +85,6 @@ namespace gitTeste
                 if (requestNameUser != null)
                 {
                     Console.WriteLine($"{requestNameUser.Nome}");
-                    return requestNameUser.Nome ?? "Valor nulo";
                 }
             }
             return requestUser;
