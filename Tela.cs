@@ -24,16 +24,16 @@ namespace gitTeste
 
                 Console.Write("CPF Usuário: ");
                 dadosUsuarios.Cpf = Console.ReadLine();
-                dadosUsuarios.validacaoCpf();
+                dadosUsuarios.AdicionarMascaraCpf(dadosUsuarios.Cpf);
+
 
                 Console.Write("Idade Usuário: ");
                 dadosUsuarios.Idade = int.Parse(Console.ReadLine());
-                dadosUsuarios.validarIdade();
+                dadosUsuarios.ValidarIdade();
 
                 listaCadastros.Add(dadosUsuarios);
-
                 seguirRegistro = SeguirCadastro(seguirRegistro);
-                
+
             }
 
             GenerateUserList(listaCadastros);
@@ -45,11 +45,13 @@ namespace gitTeste
             Console.Write("Deseja cadastrar mais usuários (S/N): ");
             seguirCadastro = Console.ReadLine();
 
-            if (!string.IsNullOrEmpty(seguirCadastro) && seguirCadastro.ToUpper() == "S")
+            if (string.IsNullOrEmpty(seguirCadastro) || seguirCadastro.ToUpper() != "S")
             {
+                seguirCadastro = VerificarValor(null);
+                Console.WriteLine(seguirCadastro);
                 return seguirCadastro;
             }
-            return seguirCadastro ?? "Operação Encerrada";
+            return seguirCadastro;
         }
 
         public void GenerateUserList(List<Users> listaCadastros)
@@ -64,7 +66,6 @@ namespace gitTeste
                 }
                 Console.WriteLine($"Idade: {user.Idade}");
             }
-
         }
 
         public string SearchUser()
