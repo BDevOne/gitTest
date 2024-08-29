@@ -1,5 +1,5 @@
 # 29/08 - Correção - Erro multíplos cadastros de usuários.
 
-Foi verificado e Corrigido erro na lógica de seguir com o cadastro de usuário no qual ao informar um valor nulo não era apresentada nenhuma informação por qual motivo não era possível seguir com o cadastro dos usuários.
+Foi verificado e corrigido um erro de cadastro de usuário, onde ao informar um valor nulo, nenhuma mensagem era apresentada para indicar o motivo pelo qual não era possível prosseguir com o novo cadastro de usuário.
 
 Foi adicionada uma mensagem mais amigável "amigável". 
