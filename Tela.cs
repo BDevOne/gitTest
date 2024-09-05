@@ -26,7 +26,6 @@ namespace gitTeste
                 dadosUsuarios.Cpf = Console.ReadLine();
                 dadosUsuarios.AdicionarMascaraCpf(dadosUsuarios.Cpf);
 
-
                 Console.Write("Idade Usuário: ");
                 dadosUsuarios.Idade = int.Parse(Console.ReadLine());
                 dadosUsuarios.ValidarIdade();
@@ -47,7 +46,7 @@ namespace gitTeste
 
             if (string.IsNullOrEmpty(seguirCadastro) || seguirCadastro.ToUpper() != "S")
             {
-                seguirCadastro = VerificarValor(null);
+                seguirCadastro = VerificarValor(seguirCadastro);
                 Console.WriteLine(seguirCadastro);
                 return seguirCadastro;
             }
@@ -68,7 +67,7 @@ namespace gitTeste
             }
         }
 
-        public string SearchUser()
+        public string? SearchUser()
         {
             Console.Write("Informe Nome do usuário que deseja procurar: ");
             var requestUser = Console.ReadLine();
@@ -81,11 +80,11 @@ namespace gitTeste
             }
             if (!string.IsNullOrEmpty(requestUser)) // melhorar esse busca, está com erro.
             {
-                Users requestNameUser = listaCadastros.First(u => u.Nome == requestUser); // Erro ao passar valor nulo
+                listaCadastros.Find(u => u.Nome == requestUser); // Erro ao passar valor nulo
 
-                if (requestNameUser != null)
+                if (requestUser != null)
                 {
-                    Console.WriteLine($"{requestNameUser.Nome}");
+                    Console.WriteLine($"{requestUser}");
                 }
             }
             return requestUser;
