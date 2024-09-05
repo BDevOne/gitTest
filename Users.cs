@@ -12,7 +12,20 @@ namespace gitTeste
         public string? Nome { get; set; }
         public int Idade { get; set; }
         public string? Cpf { get; set; }
-        public int Id { get; private set; }
+        public Guid Id { get; private set; }
+
+        private static HashSet<int> idExistente = new HashSet<int>();
+        private static Random random = new Random();
+
+        #region Constructors
+        public Users(string _nome, string _cpf, int _idade)
+        {
+            Nome = _nome;
+            Cpf = _cpf;
+            Idade = _idade;
+            Id = GenerateUniqueId();
+        }
+        #endregion
 
         public void AdicionarMascaraCpf(string cpfMascara)
         {
@@ -35,6 +48,11 @@ namespace gitTeste
                 Idade = int.Parse(Console.ReadLine());
             }
             return Idade;
+        }
+
+        private Guid GenerateUniqueId()
+        {
+            return Guid.NewGuid();
         }
 
     }

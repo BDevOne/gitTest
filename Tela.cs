@@ -10,25 +10,23 @@ namespace gitTeste
     {
         List<Users> listaCadastros = new List<Users>();
 
-        public void TelaLogin()
+        public void TelaLogin(string nome, string cpf, int idade)
         {
             string seguirRegistro = "S";
 
             while (seguirRegistro.ToUpper() == "S")
             {
-                Users dadosUsuarios = new Users();
-
                 Console.WriteLine($"\nDados do Usuário\n");
                 Console.Write("Nome Usuário: ");
-                dadosUsuarios.Nome = Console.ReadLine();
+                nome = Console.ReadLine();
 
                 Console.Write("CPF Usuário: ");
-                dadosUsuarios.Cpf = Console.ReadLine();
-                dadosUsuarios.AdicionarMascaraCpf(dadosUsuarios.Cpf);
+                cpf = Console.ReadLine();
 
                 Console.Write("Idade Usuário: ");
-                dadosUsuarios.Idade = int.Parse(Console.ReadLine());
-                dadosUsuarios.ValidarIdade();
+                idade = int.Parse(Console.ReadLine());
+
+                Users dadosUsuarios = new Users(nome, cpf, idade);
 
                 listaCadastros.Add(dadosUsuarios);
                 seguirRegistro = SeguirCadastro(seguirRegistro);

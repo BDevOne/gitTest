@@ -5,7 +5,9 @@ class Program
     static void Main(string[] args)
     {
         Tela tela = new Tela();
+
+        string nome = ""; string cpf = ""; int idade = 0;
         
-        tela.TelaLogin();
+        tela.TelaLogin(nome, cpf, idade);
     }
 }
