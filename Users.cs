@@ -1,9 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Security.AccessControl;
+using System.Security.Cryptography;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using Firebase.Auth;
 
 namespace gitTeste
 {
@@ -12,33 +17,54 @@ namespace gitTeste
         public string? Nome { get; set; }
         public int Idade { get; set; }
         public string? Cpf { get; set; }
-        public Guid Id { get; private set; }
+        public int Id { get; private set; }
+        public Enumerados.UsuarioTipo UsuarioTipo { get; set; }
+        public Enumerados.PermissoesUsuario Permissoes { get; set; }
 
-        private static HashSet<int> idExistente = new HashSet<int>();
-        private static Random random = new Random();
+        List<Users> Usuarios = new List<Users>();
+
+        // public Guid UniqueId { get; private set; }
 
         #region Constructors
+
+        public Users()
+        {
+        }
+
+        public Users(string _nome, string _cpf, int _idade, Enumerados.UsuarioTipo _usuarioTipo)
+        {
+            Nome = _nome;
+            Cpf = _cpf;
+            Idade = _idade;
+            UsuarioTipo = _usuarioTipo;
+            Id = IdCreateUser(Id);
+        }
+
         public Users(string _nome, string _cpf, int _idade)
         {
             Nome = _nome;
             Cpf = _cpf;
             Idade = _idade;
-            Id = GenerateUniqueId();
+            Id = IdCreateUser(Id);
         }
+
         #endregion
 
-        public void AdicionarMascaraCpf(string cpfMascara)
+        public void AddListUsers(List<Users> users)
         {
-            cpfMascara.Replace(".", "").Replace("-", "");
+            Usuarios.AddRange(users);
+        } 
 
-            if (!string.IsNullOrWhiteSpace(Cpf) && Cpf.Length == 11)
+        public void MascaraCpf(string cpfMascara)
+        {
+            if (cpfMascara.Length == 11)
             {
-                Cpf = Cpf.Insert(3, ".").Insert(7, ".").Insert(11, "-");
+                // Mascara CPF (000.000.000-00)
+                Cpf = cpfMascara.Insert(9, "-").Insert(6, ".").Insert(3, ".");
             }
-
         }
 
-        public int ValidarIdade( )
+        public int ValidarIdade()
         {
             if (Idade < 18)
             {
@@ -49,12 +75,188 @@ namespace gitTeste
             }
             return Idade;
         }
-
+        
         private Guid GenerateUniqueId()
         {
             return Guid.NewGuid();
         }
 
-    }
+        public int IdCreateUser(int _id)
+        {
+            Random idGerado = new Random();
 
+            if (Id == 0)
+            {
+                _id = idGerado.Next(0, 15);
+            }
+            return _id;
+        }
+
+        public Enumerados.UsuarioTipo GetTipoUsuario()
+        {
+            Console.Write("Informe o tipo do Usuario: ");
+            var tipoUsuario = Console.ReadLine();
+
+            switch (tipoUsuario)
+            {
+                case "Administrador":
+                    return Enumerados.UsuarioTipo.Administrador;
+
+                case "Master":
+                    return Enumerados.UsuarioTipo.Master;
+
+                case "Operador":
+                    return Enumerados.UsuarioTipo.Operador;
+
+                case "Externo":
+                    return Enumerados.UsuarioTipo.Externo;
+
+                default:
+                    throw new Exception("Nenhum tipo de usuário selecionado!!");
+            }
+        }
+
+        public void PermissoesTipoUsuario()
+        {
+            if (UsuarioTipo == Enumerados.UsuarioTipo.Administrador)
+            {
+                Permissoes = Enumerados.PermissoesUsuario.Editar | Enumerados.PermissoesUsuario.Excluir | Enumerados.PermissoesUsuario.Procurar;
+            }
+            if (UsuarioTipo == Enumerados.UsuarioTipo.Master)
+            {
+                Permissoes = Enumerados.PermissoesUsuario.Procurar | Enumerados.PermissoesUsuario.Editar;
+            }
+            if (UsuarioTipo == Enumerados.UsuarioTipo.Operador)
+            {
+                Permissoes = Enumerados.PermissoesUsuario.Procurar;
+            }
+            if (UsuarioTipo == Enumerados.UsuarioTipo.Externo)
+            {
+                Permissoes = Enumerados.PermissoesUsuario.EditarProprioUsuario;
+            }
+        }
+
+        /* Adicionar Validação na classe tela para verificar o tipo de usuário se é permitido Editar */
+
+        /* Preciso pegar qual o campo, verificar e adicionar o novo valor a propriedade do usuario*/
+
+        /* Adicionar try/catch para validação dos campos */
+        
+        public void PermissaoEditar()
+        {
+            if (UsuarioTipo == Enumerados.UsuarioTipo.Administrador || UsuarioTipo == Enumerados.UsuarioTipo.Master)
+            {
+                var campo = SelecionarPropriedade();
+
+                // passa o valor do dado pra prop ai verifica qual o tipo da prop e o retorno dela, assim ajuda a validar o dado
+                switch (campo)
+                {
+                    case "NomeCampo":
+                        Nome = Editar(campo);
+                        break;
+                    case "IdadeCampo":
+                        Idade = EditarIdade();
+                        break;
+                    case "TipoUsuarioCampo":
+                        UsuarioTipo = GetTipoUsuario();
+                        break;
+                    default:
+                        throw new Exception("Nenhum campo informado!!");
+                }
+            }
+
+            string Editar(string campo)
+            {
+                try
+                {
+                    Console.Write($"Digite o novo {campo.Replace("Campo", "")} do Usuário: ");
+                    var novoDado = Console.ReadLine();
+
+                    if (string.IsNullOrEmpty(novoDado) || string.IsNullOrEmpty(novoDado))
+                    {
+                        Console.Write("Campo Não pode ser nulo ou vazio. Digite novamente: ");
+                        novoDado = Console.ReadLine();
+                    }
+                    if (string.IsNullOrEmpty(novoDado) || string.IsNullOrEmpty(novoDado))
+                        throw new ArgumentException("O Dado informado não pode ser nulo ou vazio"); 
+                    
+                    return novoDado;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Erro: {ex.Message}");
+                    return Nome;
+                }
+            }
+
+            int EditarIdade()
+            {
+                int novaIdade = int.Parse(Console.ReadLine());
+
+                if (novaIdade < 18)
+                {
+                    novaIdade = ValidarIdade();
+                }
+                return novaIdade;
+            }
+        }
+
+        /* PermissaoExcluir deve conter: 
+
+            Excluir Usuarios - Somente UsuarioTipo.Administrador
+
+            Excluir Dados de outro UsuarioTipo - UsuarioTipo.Administrador && UsuarioTipo.Master
+
+            Excluir Dados proprios - Administrador && Master && Operador
+        
+        */
+        public void PermissaoExcluir()
+        {
+        }
+
+        public void GetPermissoes()
+        {
+        }
+
+        private string SelecionarPropriedade()
+        {
+            Console.Write("Selecione o Campo que seja alterar: ");
+            var editarProp = Console.ReadLine();
+
+            switch (editarProp)
+            {
+                case "1":
+                    editarProp = Enumerados.CampoPropriedade.NomeCampo.ToString();
+                    break;
+                case "2":
+                    editarProp = Enumerados.CampoPropriedade.IdadeCampo.ToString();
+                    break;
+                case "3":
+                    editarProp = Enumerados.CampoPropriedade.TipoUsuarioCampo.ToString();
+                    break;
+                default:
+                    throw new Exception("Nenhum campo selecionado!!");
+            }
+            return editarProp;
+        }
+
+        // Implementar método que verifica as Permissões do UsuarioTipo. Ex: Admin = Editar, Excluir e Procurar.
+        public void VerificarPermissoes()
+        {
+            string[] listPermissoes = Permissoes.ToString().Split(", ");
+            foreach (Enumerados.PermissoesUsuario permissao in Enum.GetValues(typeof(Enumerados.PermissoesUsuario)))
+            {
+                if (permissao != Enumerados.PermissoesUsuario.Nenhuma && Permissoes.HasFlag(permissao))
+                {
+                    Console.WriteLine($"Permissões: {permissao}");
+                }
+            }
+        }
+
+        public void ProcurarUsuario()
+        {
+            
+        } 
+
+    }
 }

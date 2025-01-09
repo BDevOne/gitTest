@@ -3,38 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel;
 
 namespace gitTeste
 {
     public class Tela
     {
         List<Users> listaCadastros = new List<Users>();
+        List<Users> usuariosValidos = new List<Users>();
+        List<Users> usuariosInvalidos = new List<Users>();
 
-        public void TelaLogin(string nome, string cpf, int idade)
+        public void TelaLogin()
         {
-            string seguirRegistro = "S";
-
-            while (seguirRegistro.ToUpper() == "S")
-            {
-                Console.WriteLine($"\nDados do Usuário\n");
-                Console.Write("Nome Usuário: ");
-                nome = Console.ReadLine();
-
-                Console.Write("CPF Usuário: ");
-                cpf = Console.ReadLine();
-
-                Console.Write("Idade Usuário: ");
-                idade = int.Parse(Console.ReadLine());
-
-                Users dadosUsuarios = new Users(nome, cpf, idade);
-
-                listaCadastros.Add(dadosUsuarios);
-                seguirRegistro = SeguirCadastro(seguirRegistro);
-
-            }
-
-            GenerateUserList(listaCadastros);
-            SearchUser();
         }
 
         public string SeguirCadastro(string seguirCadastro)
@@ -51,20 +31,7 @@ namespace gitTeste
             return seguirCadastro;
         }
 
-        public void GenerateUserList(List<Users> listaCadastros)
-        {
-            foreach (var user in listaCadastros)
-            {
-                Console.WriteLine($"Nome: {user.Nome}");
-
-                if (user.Cpf != null)
-                {
-                    Console.WriteLine($"CPF: {user.Cpf}");
-                }
-                Console.WriteLine($"Idade: {user.Idade}");
-            }
-        }
-
+        // Mover método para classe Users - Criar método de chamada para esse método - getSearchUser()
         public string? SearchUser()
         {
             Console.Write("Informe Nome do usuário que deseja procurar: ");
@@ -76,18 +43,69 @@ namespace gitTeste
                 Console.WriteLine(requestUser);
                 return requestUser;
             }
-            if (!string.IsNullOrEmpty(requestUser)) // melhorar esse busca, está com erro.
+            if (!string.IsNullOrEmpty(requestUser)) 
             {
-                listaCadastros.Find(u => u.Nome == requestUser); // Erro ao passar valor nulo
-
-                if (requestUser != null)
-                {
-                    Console.WriteLine($"{requestUser}");
-                }
+                listaCadastros.Find(u => u.Nome == requestUser);
+                return requestUser;
             }
             return requestUser;
         }
 
+        public void ExibirDadosUsuarios()
+        {
+            foreach (var listUsers in listaCadastros)
+            {
+                Console.WriteLine($"Nome: {listUsers.Nome}");
+                listUsers.MascaraCpf(listUsers.Cpf);
+                Console.WriteLine($"CPF: {listUsers.Cpf}");
+                Console.WriteLine($"Idade: {listUsers.Idade}");
+                Console.WriteLine($"Id: {listUsers.Id}");
+                Console.WriteLine($"Usuário Tipo: {listUsers.UsuarioTipo}");
+
+                // listUsers.PermissaoEditar();
+                listUsers.VerificarPermissoes();
+            }
+        }
+
+        public void TelaCriarUsuario()
+        {
+            string seguirRegistro = "S";
+
+            while (seguirRegistro.ToUpper() == "S")
+            {
+                Console.WriteLine($"\nDados do Usuário\n");
+                Console.Write("Nome Usuário: ");
+                var nome = Console.ReadLine();
+
+                Console.Write("CPF Usuário: ");
+                var cpf = Console.ReadLine();
+
+                Console.Write("Idade Usuário: ");
+                int idade = int.Parse(Console.ReadLine());
+
+                Console.WriteLine("Qual tipo de Usuário: (1 = Administrador, 2 = Master, 3 = Operador e 4 = Externo)");
+                var tipo = Console.ReadLine();
+
+                if (Enum.TryParse(tipo, true, out Enumerados.UsuarioTipo usuarioTipo))
+                {
+                    Users dadosUsuarios = new Users(nome, cpf, idade, usuarioTipo);
+                    dadosUsuarios.PermissoesTipoUsuario();
+                    dadosUsuarios.AddListUsers(listaCadastros);
+
+                    // dadosUsuarios.AddListUsers(dadosUsuarios);
+                }
+                else
+                {
+                    Users usuarioSemTipoDefinido = new Users(nome, cpf, idade);
+                    listaCadastros.Add(usuarioSemTipoDefinido);
+                }
+
+                Console.WriteLine(usuarioTipo);
+
+                seguirRegistro = SeguirCadastro(seguirRegistro);
+            }
+        }
+        
         public string VerificarValor(string valueNull)
         {
             return valueNull ?? "Operação falhou, informe um valor válido!!";
