@@ -9,14 +9,18 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using Firebase.Auth;
+using gitTeste.Entities.Tela;
+using gitTeste.Models.Enums;
 
-namespace gitTeste
+
+namespace gitTeste.Entities.User
 {
     public class Users
     {
         public string? Nome { get; set; }
         public int Idade { get; set; }
         public string? Cpf { get; set; }
+        public string? Documento { get; set; }
         public int Id { get; private set; }
         public Enumerados.UsuarioTipo UsuarioTipo { get; set; }
         public Enumerados.PermissoesUsuario Permissoes { get; set; }
@@ -50,11 +54,6 @@ namespace gitTeste
 
         #endregion
 
-        public void AddListUsers(List<Users> users)
-        {
-            Usuarios.AddRange(users);
-        } 
-
         public void MascaraCpf(string cpfMascara)
         {
             if (cpfMascara.Length == 11)
@@ -75,7 +74,7 @@ namespace gitTeste
             }
             return Idade;
         }
-        
+
         private Guid GenerateUniqueId()
         {
             return Guid.NewGuid();
@@ -92,24 +91,37 @@ namespace gitTeste
             return _id;
         }
 
-        public Enumerados.UsuarioTipo GetTipoUsuario()
+        public void GetTipoUsuario()
         {
+            Console.WriteLine("Tipos de Usuários: (1 = Administrador, 2 = Master, 3 = Operador e 4 = Externo)");
             Console.Write("Informe o tipo do Usuario: ");
             var tipoUsuario = Console.ReadLine();
 
-            switch (tipoUsuario)
+            switch (tipoUsuario?.ToUpper())
             {
-                case "Administrador":
-                    return Enumerados.UsuarioTipo.Administrador;
+                case "0":
+                case "NENHUM":
+                    UsuarioTipo = Enumerados.UsuarioTipo.Nenhum;
+                    break;
 
-                case "Master":
-                    return Enumerados.UsuarioTipo.Master;
+                case "1":
+                case "ADMINISTRADOR":
+                    UsuarioTipo = Enumerados.UsuarioTipo.Administrador;
+                    break;
+                case "2":
+                case "MASTER":
+                    UsuarioTipo = Enumerados.UsuarioTipo.Master;
+                    break;
 
-                case "Operador":
-                    return Enumerados.UsuarioTipo.Operador;
+                case "3":
+                case "OPERADOR":
+                    UsuarioTipo = Enumerados.UsuarioTipo.Operador;
+                    break;
 
-                case "Externo":
-                    return Enumerados.UsuarioTipo.Externo;
+                case "4":
+                case "EXTERNO":
+                    UsuarioTipo = Enumerados.UsuarioTipo.Externo;
+                    break;
 
                 default:
                     throw new Exception("Nenhum tipo de usuário selecionado!!");
@@ -141,7 +153,7 @@ namespace gitTeste
         /* Preciso pegar qual o campo, verificar e adicionar o novo valor a propriedade do usuario*/
 
         /* Adicionar try/catch para validação dos campos */
-        
+
         public void PermissaoEditar()
         {
             if (UsuarioTipo == Enumerados.UsuarioTipo.Administrador || UsuarioTipo == Enumerados.UsuarioTipo.Master)
@@ -158,7 +170,7 @@ namespace gitTeste
                         Idade = EditarIdade();
                         break;
                     case "TipoUsuarioCampo":
-                        UsuarioTipo = GetTipoUsuario();
+                        GetTipoUsuario();
                         break;
                     default:
                         throw new Exception("Nenhum campo informado!!");
@@ -172,14 +184,14 @@ namespace gitTeste
                     Console.Write($"Digite o novo {campo.Replace("Campo", "")} do Usuário: ");
                     var novoDado = Console.ReadLine();
 
-                    if (string.IsNullOrEmpty(novoDado) || string.IsNullOrEmpty(novoDado))
+                    if (string.IsNullOrEmpty(novoDado) || string.IsNullOrWhiteSpace(novoDado))
                     {
                         Console.Write("Campo Não pode ser nulo ou vazio. Digite novamente: ");
                         novoDado = Console.ReadLine();
                     }
-                    if (string.IsNullOrEmpty(novoDado) || string.IsNullOrEmpty(novoDado))
-                        throw new ArgumentException("O Dado informado não pode ser nulo ou vazio"); 
-                    
+                    if (string.IsNullOrEmpty(novoDado) || string.IsNullOrWhiteSpace(novoDado))
+                        throw new ArgumentException("O Dado informado não pode ser nulo ou vazio");
+
                     return novoDado;
                 }
                 catch (Exception ex)
@@ -191,6 +203,7 @@ namespace gitTeste
 
             int EditarIdade()
             {
+                Console.Write("Informe a Idade do Usuário: ");
                 int novaIdade = int.Parse(Console.ReadLine());
 
                 if (novaIdade < 18)
@@ -225,6 +238,7 @@ namespace gitTeste
 
             switch (editarProp)
             {
+                // Criar metodo 
                 case "1":
                     editarProp = Enumerados.CampoPropriedade.NomeCampo.ToString();
                     break;
@@ -232,7 +246,7 @@ namespace gitTeste
                     editarProp = Enumerados.CampoPropriedade.IdadeCampo.ToString();
                     break;
                 case "3":
-                    editarProp = Enumerados.CampoPropriedade.TipoUsuarioCampo.ToString();
+                    editarProp = Enumerados.CampoPropriedade.TipoUsuarioCampo.ToString(); // Aqui adicionar o método GetTipoUsuario
                     break;
                 default:
                     throw new Exception("Nenhum campo selecionado!!");
@@ -248,15 +262,15 @@ namespace gitTeste
             {
                 if (permissao != Enumerados.PermissoesUsuario.Nenhuma && Permissoes.HasFlag(permissao))
                 {
-                    Console.WriteLine($"Permissões: {permissao}");
+                    Console.WriteLine($"{Nome} Permissões: {permissao}");
                 }
             }
         }
 
         public void ProcurarUsuario()
         {
-            
-        } 
+
+        }
 
     }
 }

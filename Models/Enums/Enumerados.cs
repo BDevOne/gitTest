@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace gitTeste
+namespace gitTeste.Models.Enums
 {
     public class Enumerados
     {
@@ -19,6 +19,7 @@ namespace gitTeste
 
         public enum UsuarioTipo
         {
+            Nenhum = 0,
             Administrador = 1,
             Master = 2,
             Operador = 3,
@@ -30,13 +31,19 @@ namespace gitTeste
             NomeCampo = 1,
             IdadeCampo = 2,
             TipoUsuarioCampo = 3,
-            DocumentCampo = 4 
+            DocumentoCampo = 4 
         }
 
         public enum OpcoesEscolhaTela
         {
             CadastrarUsuario = 1,
             LogarUsuario = 2,
+        }
+
+        public enum DocumentoEscolha
+        {
+            Cpf = 1,
+            Rg = 2,
         }
 
     }

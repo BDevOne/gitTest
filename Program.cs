@@ -1,14 +1,15 @@
-﻿using gitTeste;
+﻿using gitTeste.Entities.Tela;
+using gitTeste;
 
 class Program
 {
     static void Main(string[] args)
     {
-        Tela tela = new Tela();
 
+        Tela tela = new Tela();
         Console.WriteLine("Opção 1: Tela de Cadastro");
         Console.WriteLine("Opção 2: Tela Login");
-        Console.WriteLine("Opção 3: Tela de Cadastro");
+        // Console.WriteLine("Opção 3: Tela de Cadastro");
 
         Console.Write("Qual opção: ");
         var opcoes = Console.ReadLine();
@@ -27,6 +28,9 @@ class Program
         }
 
         tela.ExibirDadosUsuarios();
+
+        Console.WriteLine("Passou Aqui!!");
+        tela.EditarUsuario();
 
         // var dbTestConnection = db_firebase.CreateCredential();
 

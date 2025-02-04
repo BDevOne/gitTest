@@ -4,14 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
+using gitTeste.Entities.User;
+using gitTeste.Models.Enums;
 
-namespace gitTeste
+namespace gitTeste.Entities.Tela
 {
     public class Tela
     {
         List<Users> listaCadastros = new List<Users>();
         List<Users> usuariosValidos = new List<Users>();
         List<Users> usuariosInvalidos = new List<Users>();
+        List<Users> usuariosSemTipoDefinido = new List<Users>();
 
         public void TelaLogin()
         {
@@ -43,7 +46,7 @@ namespace gitTeste
                 Console.WriteLine(requestUser);
                 return requestUser;
             }
-            if (!string.IsNullOrEmpty(requestUser)) 
+            if (!string.IsNullOrEmpty(requestUser))
             {
                 listaCadastros.Find(u => u.Nome == requestUser);
                 return requestUser;
@@ -64,6 +67,7 @@ namespace gitTeste
 
                 // listUsers.PermissaoEditar();
                 listUsers.VerificarPermissoes();
+                Console.WriteLine();
             }
         }
 
@@ -83,29 +87,57 @@ namespace gitTeste
                 Console.Write("Idade Usuário: ");
                 int idade = int.Parse(Console.ReadLine());
 
-                Console.WriteLine("Qual tipo de Usuário: (1 = Administrador, 2 = Master, 3 = Operador e 4 = Externo)");
-                var tipo = Console.ReadLine();
+                Console.WriteLine("Selecione o tipo de Usuário: (1 = Administrador, 2 = Master, 3 = Operador e 4 = Externo)");
+                int tipo = int.Parse(Console.ReadLine());
 
-                if (Enum.TryParse(tipo, true, out Enumerados.UsuarioTipo usuarioTipo))
-                {
-                    Users dadosUsuarios = new Users(nome, cpf, idade, usuarioTipo);
-                    dadosUsuarios.PermissoesTipoUsuario();
-                    dadosUsuarios.AddListUsers(listaCadastros);
+                Users usuariosCadastrados = new Users(nome, cpf, idade, (Enumerados.UsuarioTipo)tipo);
 
-                    // dadosUsuarios.AddListUsers(dadosUsuarios);
-                }
-                else
-                {
-                    Users usuarioSemTipoDefinido = new Users(nome, cpf, idade);
-                    listaCadastros.Add(usuarioSemTipoDefinido);
-                }
-
-                Console.WriteLine(usuarioTipo);
+                listaCadastros.Add(usuariosCadastrados);
 
                 seguirRegistro = SeguirCadastro(seguirRegistro);
             }
+            SepararUsuarioTipo();
         }
-        
+
+        // Criar verificação foreach, no qual tem por objetivo verificar em uma lista todos os usuarios e separar os que não possue tipo. (AFIM DE VIABILIZAR O FLUXO DE CADASTRO)
+        public void SepararUsuarioTipo()
+        {
+            foreach (var separar in listaCadastros)
+            {
+                // Adicionar um if para verificar se o tipo do usuario é igual a nenhum
+                if (Enum.TryParse(separar.UsuarioTipo.ToString(), true, out Enumerados.UsuarioTipo usuarioTipo) && usuarioTipo != Enumerados.UsuarioTipo.Nenhum)
+                {
+                    separar.PermissoesTipoUsuario();
+                    usuariosValidos.Add(separar);
+                    continue;
+                }
+                if (separar.UsuarioTipo == 0 || separar.UsuarioTipo == Enumerados.UsuarioTipo.Nenhum)
+                {
+                    usuariosSemTipoDefinido.Add(separar);
+                }
+                if (separar.Cpf == null)
+                {
+                    usuariosInvalidos.Add(separar);
+                }
+            }
+        }
+
+        public void EditarUsuario()
+        {
+            var usuarioEncontrado = SearchUser();
+            foreach (var user in listaCadastros)
+            {   
+                if (usuarioEncontrado == user.Nome)
+                {
+                    user.PermissaoEditar();
+                }
+                else
+                {
+                    Console.WriteLine("Usuário Não Encontrado");
+                }
+            }
+        }
+
         public string VerificarValor(string valueNull)
         {
             return valueNull ?? "Operação falhou, informe um valor válido!!";
