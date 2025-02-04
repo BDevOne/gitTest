@@ -27,8 +27,6 @@ namespace gitTeste.Entities.User
 
         List<Users> Usuarios = new List<Users>();
 
-        // public Guid UniqueId { get; private set; }
-
         #region Constructors
 
         public Users()
@@ -148,19 +146,12 @@ namespace gitTeste.Entities.User
             }
         }
 
-        /* Adicionar Validação na classe tela para verificar o tipo de usuário se é permitido Editar */
-
-        /* Preciso pegar qual o campo, verificar e adicionar o novo valor a propriedade do usuario*/
-
-        /* Adicionar try/catch para validação dos campos */
-
         public void PermissaoEditar()
         {
             if (UsuarioTipo == Enumerados.UsuarioTipo.Administrador || UsuarioTipo == Enumerados.UsuarioTipo.Master)
             {
                 var campo = SelecionarPropriedade();
-
-                // passa o valor do dado pra prop ai verifica qual o tipo da prop e o retorno dela, assim ajuda a validar o dado
+    
                 switch (campo)
                 {
                     case "NomeCampo":
@@ -214,15 +205,6 @@ namespace gitTeste.Entities.User
             }
         }
 
-        /* PermissaoExcluir deve conter: 
-
-            Excluir Usuarios - Somente UsuarioTipo.Administrador
-
-            Excluir Dados de outro UsuarioTipo - UsuarioTipo.Administrador && UsuarioTipo.Master
-
-            Excluir Dados proprios - Administrador && Master && Operador
-        
-        */
         public void PermissaoExcluir()
         {
         }
@@ -238,7 +220,7 @@ namespace gitTeste.Entities.User
 
             switch (editarProp)
             {
-                // Criar metodo 
+
                 case "1":
                     editarProp = Enumerados.CampoPropriedade.NomeCampo.ToString();
                     break;
@@ -246,7 +228,7 @@ namespace gitTeste.Entities.User
                     editarProp = Enumerados.CampoPropriedade.IdadeCampo.ToString();
                     break;
                 case "3":
-                    editarProp = Enumerados.CampoPropriedade.TipoUsuarioCampo.ToString(); // Aqui adicionar o método GetTipoUsuario
+                    editarProp = Enumerados.CampoPropriedade.TipoUsuarioCampo.ToString(); 
                     break;
                 default:
                     throw new Exception("Nenhum campo selecionado!!");
@@ -254,7 +236,6 @@ namespace gitTeste.Entities.User
             return editarProp;
         }
 
-        // Implementar método que verifica as Permissões do UsuarioTipo. Ex: Admin = Editar, Excluir e Procurar.
         public void VerificarPermissoes()
         {
             string[] listPermissoes = Permissoes.ToString().Split(", ");
