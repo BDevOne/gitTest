@@ -1,36 +1,51 @@
-﻿using gitTeste.Entities.Tela;
-using gitTeste;
+﻿using Course.Entities.Exceptions;
+using Firebase.Auth;
+using gitTeste.Entities;
+using gitTeste.Entities.Enums;
 
 class Program
 {
     static void Main(string[] args)
     {
-
         Tela tela = new Tela();
-        Console.WriteLine("Opção 1: Tela de Cadastro");
-        Console.WriteLine("Opção 2: Tela Login");
-        // Console.WriteLine("Opção 3: Tela de Cadastro");
+        Console.WriteLine("Opção 1: Cadastrar Usuário");
 
-        Console.Write("Qual opção: ");
+        Console.Write("Informe a opção: ");
         var opcoes = Console.ReadLine();
 
-        switch (opcoes)
+        try
         {
-           case "1":
-               tela.TelaCriarUsuario();
-           break;
-           case "2":
-               tela.SearchUser();
-           break;
-            
-           default:
-               throw new Exception("Nenhuma opção selecionada!!");
+            if (Enum.TryParse(opcoes, out Enumerados.OpcoesEscolhaTela escolha))
+            {
+                switch (escolha)
+                {
+                    case Enumerados.OpcoesEscolhaTela.CadastrarUsuario:
+                        tela.TelaCriarUsuario();
+                        break;
+                    default:
+                        throw new DomainException("Nenhuma opção válida encontrada!!");
+                }
+            }
+            else
+            {
+                throw new ArgumentException($"O valor '{opcoes}' não é válido!!!!");
+            }
+        }
+        catch (DomainException e)
+        {
+            Console.WriteLine($"Error: {e.Message}");
+            return;
+        }
+        catch (ArgumentException e)
+        {
+            Console.WriteLine($"Error: {e.Message}");
+            return;
         }
 
         tela.ExibirDadosUsuarios();
 
         Console.WriteLine("Passou Aqui!!");
-        tela.EditarUsuario();
+        tela.GetEditarUsuario();
 
         // var dbTestConnection = db_firebase.CreateCredential();
 

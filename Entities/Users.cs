@@ -9,11 +9,11 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using Firebase.Auth;
-using gitTeste.Entities.Tela;
-using gitTeste.Models.Enums;
+using gitTeste.Entities;
+using gitTeste.Entities.Enums;
 
 
-namespace gitTeste.Entities.User
+namespace gitTeste.Entities
 {
     public class Users
     {
@@ -25,7 +25,7 @@ namespace gitTeste.Entities.User
         public Enumerados.UsuarioTipo UsuarioTipo { get; set; }
         public Enumerados.PermissoesUsuario Permissoes { get; set; }
 
-        List<Users> Usuarios = new List<Users>();
+        List<Users> ListaUsuarios = new List<Users>();
 
         // public Guid UniqueId { get; private set; }
 
@@ -254,6 +254,13 @@ namespace gitTeste.Entities.User
             return editarProp;
         }
 
+        // Adicionar validação, ao qual será possível escolher antes de informar o tipo ex: SELECIONE O TIPO DE DOCUMENTO CPF = 1 E RG = 2. Ao escolher chamar validação de cada
+        // Criar método do CPF e Método RG para cada validação.  
+        public void SelecionarDocumento()
+        {
+            Console.WriteLine("Informe o tipo de documento do Usuário: ");
+        }
+
         // Implementar método que verifica as Permissões do UsuarioTipo. Ex: Admin = Editar, Excluir e Procurar.
         public void VerificarPermissoes()
         {
@@ -267,9 +274,37 @@ namespace gitTeste.Entities.User
             }
         }
 
-        public void ProcurarUsuario()
+        public void AdicionarUsuarioLista(string nome, string cpf, int idade, Enumerados.UsuarioTipo tipoUsuario)
         {
+            ListaUsuarios.Add(new Users {Nome = nome, Cpf = cpf, Idade = idade, UsuarioTipo = tipoUsuario});
+        }
 
+        public string? SearchUser()
+        {
+            Console.Write("Informe Nome do usuário que deseja procurar: ");
+            var requestUser = Console.ReadLine();
+
+            if (string.IsNullOrEmpty(requestUser))
+            {
+                requestUser = VerificarValor(null);
+                Console.WriteLine(requestUser);
+                return requestUser;
+            }
+            if (!string.IsNullOrEmpty(requestUser))
+            {
+                var usuarioEncontrado = ListaUsuarios.FirstOrDefault(u => u.Nome == requestUser);
+
+                if (usuarioEncontrado?.Nome == requestUser)
+                {
+                    return usuarioEncontrado?.Nome;
+                }
+            }
+            return requestUser;
+        }
+
+        public string VerificarValor(string valueNull)
+        {
+            return valueNull ?? "Operação falhou, informe um valor válido!!";
         }
 
     }

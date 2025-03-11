@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
-using gitTeste.Entities.User;
-using gitTeste.Models.Enums;
+using gitTeste.Entities;
+using gitTeste.Entities.Enums;
 
-namespace gitTeste.Entities.Tela
+namespace gitTeste.Entities
 {
     public class Tela
     {
@@ -16,8 +16,18 @@ namespace gitTeste.Entities.Tela
         List<Users> usuariosInvalidos = new List<Users>();
         List<Users> usuariosSemTipoDefinido = new List<Users>();
 
+        private Users users = new Users();
+
         public void TelaLogin()
         {
+            Console.Write("Informe o Login: ");
+            var login = SearchUser();
+
+            if (login != null)
+            {
+                Console.Write($"Usuário Login: {login}");
+            }
+
         }
 
         public string SeguirCadastro(string seguirCadastro)
@@ -48,8 +58,12 @@ namespace gitTeste.Entities.Tela
             }
             if (!string.IsNullOrEmpty(requestUser))
             {
-                listaCadastros.Find(u => u.Nome == requestUser);
-                return requestUser;
+                var usuarioEncontrado = listaCadastros.FirstOrDefault(u => u.Nome == requestUser);
+
+                if (usuarioEncontrado?.Nome == requestUser)
+                {
+                    return usuarioEncontrado?.Nome;
+                }
             }
             return requestUser;
         }
@@ -89,17 +103,18 @@ namespace gitTeste.Entities.Tela
 
                 Console.WriteLine("Selecione o tipo de Usuário: (1 = Administrador, 2 = Master, 3 = Operador e 4 = Externo)");
                 int tipo = int.Parse(Console.ReadLine());
-
-                Users usuariosCadastrados = new Users(nome, cpf, idade, (Enumerados.UsuarioTipo)tipo);
-
-                listaCadastros.Add(usuariosCadastrados);
+            
+                users.AdicionarUsuarioLista(nome, cpf, idade, (Enumerados.UsuarioTipo)tipo);
 
                 seguirRegistro = SeguirCadastro(seguirRegistro);
             }
             SepararUsuarioTipo();
         }
 
-        // Criar verificação foreach, no qual tem por objetivo verificar em uma lista todos os usuarios e separar os que não possue tipo. (AFIM DE VIABILIZAR O FLUXO DE CADASTRO)
+        /* 
+        Criar verificação foreach, no qual tem por objetivo verificar em uma lista todos os usuarios e separar os que não possue tipo. (AFIM DE VIABILIZAR O FLUXO DE CADASTRO)
+        Mover método SepararUsuarioTipo(), ao qual deve pertencer a classe Users.
+        */
         public void SepararUsuarioTipo()
         {
             foreach (var separar in listaCadastros)
@@ -122,9 +137,10 @@ namespace gitTeste.Entities.Tela
             }
         }
 
-        public void EditarUsuario()
+        // Alterar nome do método para getEditarUsuario, pois chama o editar da classe Users e não realiza alteração do usuário.
+        public void GetEditarUsuario(string usuarioEncontrado)
         {
-            var usuarioEncontrado = SearchUser();
+            usuarioEncontrado = SearchUser();
             foreach (var user in listaCadastros)
             {   
                 if (usuarioEncontrado == user.Nome)
@@ -133,9 +149,15 @@ namespace gitTeste.Entities.Tela
                 }
                 else
                 {
-                    Console.WriteLine("Usuário Não Encontrado");
+                    Console.WriteLine("Usuário não encontrado!!!");
                 }
+                
             }
+        }
+
+        public void GetSearchUser()
+        {
+            /* Adicionar uma variavel que recebe o nome do user */
         }
 
         public string VerificarValor(string valueNull)

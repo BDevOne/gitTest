@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\pedro.carvalho\\Desktop\\gitTeste\\gitTeste.csproj": {}
+    "C:\\Users\\pedro.carvalho\\Desktop\\gitTeste\\gitTeste.csproj": {}
   },
   "projects": {
-    "c:\\Users\\pedro.carvalho\\Desktop\\gitTeste\\gitTeste.csproj": {
+    "C:\\Users\\pedro.carvalho\\Desktop\\gitTeste\\gitTeste.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\pedro.carvalho\\Desktop\\gitTeste\\gitTeste.csproj",
+        "projectUniqueName": "C:\\Users\\pedro.carvalho\\Desktop\\gitTeste\\gitTeste.csproj",
         "projectName": "gitTeste",
-        "projectPath": "c:\\Users\\pedro.carvalho\\Desktop\\gitTeste\\gitTeste.csproj",
+        "projectPath": "C:\\Users\\pedro.carvalho\\Desktop\\gitTeste\\gitTeste.csproj",
         "packagesPath": "C:\\Users\\pedro.carvalho\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\pedro.carvalho\\Desktop\\gitTeste\\obj\\",
+        "outputPath": "C:\\Users\\pedro.carvalho\\Desktop\\gitTeste\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

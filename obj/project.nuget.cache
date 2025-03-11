@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "/mKWVEUUidBT9AckOpMbgjyywTjIdZNxCWVK4vj4e/gj1xekXX52/xbB/EzbSpaPPkcv5kt8sZOBVSe6RFiCBw==",
+  "dgSpecHash": "1ihHdy762JE+U2Bd/CQEmbblR8pUG/6bRU9JnuvMZCE6w0MCShE+m4z4mi8WTKDGhhxYgbN0Igd41YgxtStUTA==",
   "success": true,
-  "projectFilePath": "c:\\Users\\pedro.carvalho\\Desktop\\gitTeste\\gitTeste.csproj",
+  "projectFilePath": "C:\\Users\\pedro.carvalho\\Desktop\\gitTeste\\gitTeste.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\pedro.carvalho\\.nuget\\packages\\firebase.auth\\1.0.0\\firebase.auth.1.0.0.nupkg.sha512",
     "C:\\Users\\pedro.carvalho\\.nuget\\packages\\firebaseadmin\\3.1.0\\firebaseadmin.3.1.0.nupkg.sha512",
