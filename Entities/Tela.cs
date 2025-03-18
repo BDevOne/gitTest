@@ -35,31 +35,7 @@ namespace gitTeste.Entities
             }
             return seguirCadastro;
         }
-
-        // Remover método SearchUser
-        public string? SearchUser()
-        {
-            Console.Write("Informe Nome do usuário que deseja procurar: ");
-            var requestUser = Console.ReadLine();
-
-            if (string.IsNullOrEmpty(requestUser))
-            {
-                requestUser = VerificarValor(null);
-                Console.WriteLine(requestUser);
-                return requestUser;
-            }
-            if (!string.IsNullOrEmpty(requestUser))
-            {
-                var usuarioEncontrado = listaCadastros.FirstOrDefault(u => u.Nome == requestUser);
-
-                if (usuarioEncontrado?.Nome == requestUser)
-                {
-                    return usuarioEncontrado?.Nome;
-                }
-            }
-            return requestUser;
-        }
-
+        
         public void ExibirDadosUsuarios()
         {
             foreach (var listUsers in listaCadastros)
