@@ -20,14 +20,6 @@ namespace gitTeste.Entities
 
         public void TelaLogin()
         {
-            Console.Write("Informe o Login: ");
-            var login = SearchUser();
-
-            if (login != null)
-            {
-                Console.Write($"Usuário Login: {login}");
-            }
-
         }
 
         public string SeguirCadastro(string seguirCadastro)
@@ -44,7 +36,7 @@ namespace gitTeste.Entities
             return seguirCadastro;
         }
 
-        // Mover método para classe Users - Criar método de chamada para esse método - getSearchUser()
+        // Remover método SearchUser
         public string? SearchUser()
         {
             Console.Write("Informe Nome do usuário que deseja procurar: ");
@@ -103,7 +95,7 @@ namespace gitTeste.Entities
 
                 Console.WriteLine("Selecione o tipo de Usuário: (1 = Administrador, 2 = Master, 3 = Operador e 4 = Externo)");
                 int tipo = int.Parse(Console.ReadLine());
-            
+
                 users.AdicionarUsuarioLista(nome, cpf, idade, (Enumerados.UsuarioTipo)tipo);
 
                 seguirRegistro = SeguirCadastro(seguirRegistro);
@@ -140,9 +132,9 @@ namespace gitTeste.Entities
         // Alterar nome do método para getEditarUsuario, pois chama o editar da classe Users e não realiza alteração do usuário.
         public void GetEditarUsuario(string usuarioEncontrado)
         {
-            usuarioEncontrado = SearchUser();
+            GetSearchUser(usuarioEncontrado);
             foreach (var user in listaCadastros)
-            {   
+            {
                 if (usuarioEncontrado == user.Nome)
                 {
                     user.PermissaoEditar();
@@ -151,13 +143,17 @@ namespace gitTeste.Entities
                 {
                     Console.WriteLine("Usuário não encontrado!!!");
                 }
-                
+
             }
         }
 
-        public void GetSearchUser()
+        public void GetSearchUser(string requestName)
         {
-            /* Adicionar uma variavel que recebe o nome do user */
+            requestName = "";
+            Console.Write("Informe Nome do usuário que deseja procurar: ");
+            users.SearchUser(requestName);
+
+            Console.WriteLine($"Usuário encontrado: {requestName}");
         }
 
         public string VerificarValor(string valueNull)

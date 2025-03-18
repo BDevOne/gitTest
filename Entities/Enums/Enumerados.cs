@@ -38,6 +38,7 @@ namespace gitTeste.Entities.Enums
         {
             CadastrarUsuario = 1,
             LogarUsuario = 2,
+            ProcurarUsuario = 3,
         }
 
         public enum DocumentoEscolha

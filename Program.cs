@@ -22,6 +22,10 @@ class Program
                     case Enumerados.OpcoesEscolhaTela.CadastrarUsuario:
                         tela.TelaCriarUsuario();
                         break;
+                    case Enumerados.OpcoesEscolhaTela.ProcurarUsuario:
+                        string? procurarUser = "";
+                        tela.GetSearchUser(procurarUser);
+                        break;
                     default:
                         throw new DomainException("Nenhuma opção válida encontrada!!");
                 }
@@ -42,10 +46,12 @@ class Program
             return;
         }
 
+        // Aplicar validação para verificar se possui usuários cadastrados para ser chamado o método: tela.ExibirDadosUsuarios();
         tela.ExibirDadosUsuarios();
 
         Console.WriteLine("Passou Aqui!!");
-        tela.GetEditarUsuario();
+
+        // Aplicar validação para verificar se possui usuários cadastrados para ser chamado o método: tela.GetEditarUsuario();
 
         // var dbTestConnection = db_firebase.CreateCredential();
 
