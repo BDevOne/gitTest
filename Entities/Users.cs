@@ -194,7 +194,7 @@ namespace gitTeste.Entities
 
                     return novoDado;
                 }
-                catch (Exception ex)
+                catch (ArgumentException ex)
                 {
                     Console.WriteLine($"Erro: {ex.Message}");
                     return Nome;
@@ -279,41 +279,36 @@ namespace gitTeste.Entities
             ListaUsuarios.Add(new Users { Nome = nome, Cpf = cpf, Idade = idade, UsuarioTipo = tipoUsuario });
         }
 
-
+        // 
         public void SearchUser(string requestUser)
         {
-            requestUser = Console.ReadLine();
             try
             {
-                if (string.IsNullOrEmpty(requestUser) || string.IsNullOrWhiteSpace(requestUser))
+                requestUser = Console.ReadLine();
+                if (requestUser == null || string.IsNullOrWhiteSpace(requestUser))
                 {
                     Console.WriteLine("Campo não pode ser nulo ou vazio. Digite novamente: ");
                     requestUser = Console.ReadLine();
 
-                    if (!string.IsNullOrEmpty(requestUser))
-                    {
-                        var usuarioEncontrado = ListaUsuarios.FirstOrDefault(u => u.Nome == requestUser);
+                    if (requestUser == null || string.IsNullOrWhiteSpace(requestUser))
+                        throw new NullReferenceException("Campo não pode ser nulo ou vazio!!!");
+                }
 
-                        if (usuarioEncontrado?.Nome == requestUser)
-                        {
-                            requestUser = usuarioEncontrado?.Nome;
-                        }
-                    }
+                var usuarioEncontrado = ListaUsuarios.FirstOrDefault(u => u.Nome?.Equals(requestUser, StringComparison.OrdinalIgnoreCase) == true);
+
+                if (usuarioEncontrado != null && usuarioEncontrado.Nome == requestUser)
+                {
+                    requestUser = usuarioEncontrado?.Nome;
                 }
                 else
                 {
-                    throw new NullReferenceException("Campo não pode ser nulo ou vazio!!!");
+                    throw new NullReferenceException("Nenhum usuário encontrado!!!");
                 }
             }
             catch (NullReferenceException ex)
             {
                 Console.WriteLine($"Erro: {ex.Message}");
             }
-        }
-
-        public string VerificarValor(string valueNull)
-        {
-            return valueNull ?? "Campo informado não pode ser nulo, informe um valor válido!!";
         }
 
     }

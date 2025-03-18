@@ -35,7 +35,7 @@ namespace gitTeste.Entities
             }
             return seguirCadastro;
         }
-        
+
         public void ExibirDadosUsuarios()
         {
             foreach (var listUsers in listaCadastros)
@@ -83,6 +83,8 @@ namespace gitTeste.Entities
         Criar verificação foreach, no qual tem por objetivo verificar em uma lista todos os usuarios e separar os que não possue tipo. (AFIM DE VIABILIZAR O FLUXO DE CADASTRO)
         Mover método SepararUsuarioTipo(), ao qual deve pertencer a classe Users.
         */
+
+        // Mover método para a classe Users.
         public void SepararUsuarioTipo()
         {
             foreach (var separar in listaCadastros)
@@ -105,7 +107,6 @@ namespace gitTeste.Entities
             }
         }
 
-        // Alterar nome do método para getEditarUsuario, pois chama o editar da classe Users e não realiza alteração do usuário.
         public void GetEditarUsuario(string usuarioEncontrado)
         {
             GetSearchUser(usuarioEncontrado);
@@ -119,7 +120,6 @@ namespace gitTeste.Entities
                 {
                     Console.WriteLine("Usuário não encontrado!!!");
                 }
-
             }
         }
 

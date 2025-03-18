@@ -37,8 +37,9 @@ namespace gitTeste.Entities.Enums
         public enum OpcoesEscolhaTela
         {
             CadastrarUsuario = 1,
-            LogarUsuario = 2,
-            ProcurarUsuario = 3,
+            ProcurarUsuario = 2,
+            LogarUsuario = 3,
+            EditarUsuario = 4,
         }
 
         public enum DocumentoEscolha

@@ -9,12 +9,12 @@ class Program
     {
         Tela tela = new Tela();
         Console.WriteLine("Opção 1: Cadastrar Usuário");
-
-        Console.Write("Informe a opção: ");
-        var opcoes = Console.ReadLine();
+        Console.WriteLine("Opção 2: Procurar Usuário");
 
         try
         {
+            Console.Write("Informe a opção: ");
+            var opcoes = Console.ReadLine();
             if (Enum.TryParse(opcoes, out Enumerados.OpcoesEscolhaTela escolha))
             {
                 switch (escolha)
@@ -25,6 +25,10 @@ class Program
                     case Enumerados.OpcoesEscolhaTela.ProcurarUsuario:
                         string? procurarUser = "";
                         tela.GetSearchUser(procurarUser);
+                        break;
+                    case Enumerados.OpcoesEscolhaTela.EditarUsuario:
+                        string? editarUsuario = "";
+                        tela.GetEditarUsuario(editarUsuario);
                         break;
                     default:
                         throw new DomainException("Nenhuma opção válida encontrada!!");
