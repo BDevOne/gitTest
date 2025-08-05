@@ -8,6 +8,7 @@ class Program
     static void Main(string[] args)
     {
         Tela tela = new Tela();
+
         Console.WriteLine("Opção 1: Cadastrar Usuário");
         Console.WriteLine("Opção 2: Procurar Usuário");
 
@@ -52,8 +53,6 @@ class Program
 
         // Aplicar validação para verificar se possui usuários cadastrados para ser chamado o método: tela.ExibirDadosUsuarios();
         tela.ExibirDadosUsuarios();
-
-        Console.WriteLine("Passou Aqui!!");
 
         // Aplicar validação para verificar se possui usuários cadastrados para ser chamado o método: tela.GetEditarUsuario();
 

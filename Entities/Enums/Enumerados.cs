@@ -31,7 +31,9 @@ namespace gitTeste.Entities.Enums
             NomeCampo = 1,
             IdadeCampo = 2,
             TipoUsuarioCampo = 3,
-            DocumentoCampo = 4 
+            DocumentoCampo = 4,
+            
+            DataNascimentoCampo = 5,
         }
 
         public enum OpcoesEscolhaTela

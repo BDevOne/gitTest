@@ -1,15 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Security.AccessControl;
-using System.Security.Cryptography;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
-using Firebase.Auth;
-using gitTeste.Entities;
 using gitTeste.Entities.Enums;
 
 
@@ -17,6 +6,7 @@ namespace gitTeste.Entities
 {
     public class Users
     {
+        #region Properties
         public string? Nome { get; set; }
         public int Idade { get; set; }
         public string? Cpf { get; set; }
@@ -24,45 +14,40 @@ namespace gitTeste.Entities
         public int Id { get; private set; }
         public Enumerados.UsuarioTipo UsuarioTipo { get; set; }
         public Enumerados.PermissoesUsuario Permissoes { get; set; }
+        public DateTime DataNascimento { get; set; }
+        // public Guid UniqueId { get; private set; }
+        #endregion
 
         List<Users> ListaUsuarios = new List<Users>();
-
-        // public Guid UniqueId { get; private set; }
+        TratarDados tratarDados = new TratarDados();
 
         #region Constructors
-
         public Users()
         {
         }
 
-        public Users(string _nome, string _cpf, int _idade, Enumerados.UsuarioTipo _usuarioTipo)
+        public Users(string _nome, string _cpf, int _idade, Enumerados.UsuarioTipo _usuarioTipo, DateTime dataNascimento)
         {
             Nome = _nome;
             Cpf = _cpf;
             Idade = _idade;
             UsuarioTipo = _usuarioTipo;
+            DataNascimento = dataNascimento;
             Id = IdCreateUser(Id);
         }
 
-        public Users(string _nome, string _cpf, int _idade)
+        public Users(string _nome, string _cpf, DateTime _dataNascimento, Enumerados.UsuarioTipo _usuarioTipo)
         {
             Nome = _nome;
             Cpf = _cpf;
-            Idade = _idade;
+            DataNascimento = _dataNascimento;
+            UsuarioTipo = _usuarioTipo;
             Id = IdCreateUser(Id);
         }
-
+        
         #endregion
 
-        public void MascaraCpf(string cpfMascara)
-        {
-            if (cpfMascara.Length == 11)
-            {
-                // Mascara CPF (000.000.000-00)
-                Cpf = cpfMascara.Insert(9, "-").Insert(6, ".").Insert(3, ".");
-            }
-        }
-
+        // Remover método e adicionar validação no método de criação de usuário
         public int ValidarIdade()
         {
             if (Idade < 18)
@@ -128,7 +113,7 @@ namespace gitTeste.Entities
             }
         }
 
-        public void PermissoesTipoUsuario()
+        public void AtribuirUsuarioPermissao()
         {
             if (UsuarioTipo == Enumerados.UsuarioTipo.Administrador)
             {
@@ -148,26 +133,21 @@ namespace gitTeste.Entities
             }
         }
 
-        /* Adicionar Validação na classe tela para verificar o tipo de usuário se é permitido Editar */
-
-        /* Preciso pegar qual o campo, verificar e adicionar o novo valor a propriedade do usuario*/
-
-        /* Adicionar try/catch para validação dos campos */
-
-        public void PermissaoEditar()
+        /* Adicionar validação na classe tela para apenas exibir essa opção caso usuário logado tenha permissão de Edição de Usuário*/
+        public void EdicaoUsuario(string campoEditar)
         {
             if (UsuarioTipo == Enumerados.UsuarioTipo.Administrador || UsuarioTipo == Enumerados.UsuarioTipo.Master)
             {
-                var campo = SelecionarPropriedade();
+                SelecionarPropriedade(campoEditar);
 
-                // passa o valor do dado pra prop ai verifica qual o tipo da prop e o retorno dela, assim ajuda a validar o dado
-                switch (campo)
+                string novoDadoTexto = " ";
+                switch (campoEditar)
                 {
                     case "NomeCampo":
-                        Nome = Editar(campo);
+                        EditarNomeUsuario(novoDadoTexto);
                         break;
                     case "IdadeCampo":
-                        Idade = EditarIdade();
+                        EditarDataNascimento();
                         break;
                     case "TipoUsuarioCampo":
                         GetTipoUsuario();
@@ -176,41 +156,40 @@ namespace gitTeste.Entities
                         throw new Exception("Nenhum campo informado!!");
                 }
             }
+        }
 
-            string Editar(string campo)
+        private void EditarNomeUsuario(string novoNomeUsuario)
+        {
+            try
             {
-                try
-                {
-                    Console.Write($"Digite o novo {campo.Replace("Campo", "")} do Usuário: ");
-                    var novoDado = Console.ReadLine();
+                Console.Write($"Digite o novo Nome do Usuário: ");
+                novoNomeUsuario = Console.ReadLine();
 
-                    if (string.IsNullOrEmpty(novoDado) || string.IsNullOrWhiteSpace(novoDado))
-                    {
-                        Console.Write("Campo Não pode ser nulo ou vazio. Digite novamente: ");
-                        novoDado = Console.ReadLine();
-                    }
-                    if (string.IsNullOrEmpty(novoDado) || string.IsNullOrWhiteSpace(novoDado))
-                        throw new ArgumentException("O Dado informado não pode ser nulo ou vazio");
-
-                    return novoDado;
-                }
-                catch (ArgumentException ex)
+                if (string.IsNullOrEmpty(novoNomeUsuario) || string.IsNullOrWhiteSpace(novoNomeUsuario))
                 {
-                    Console.WriteLine($"Erro: {ex.Message}");
-                    return Nome;
+                    Console.WriteLine("Informação inválida!! Digite novamente: ");
+                    novoNomeUsuario = Console.ReadLine();
+
+                    if (string.IsNullOrEmpty(novoNomeUsuario) || string.IsNullOrWhiteSpace(novoNomeUsuario))
+                        throw new ArgumentException("O Campo informado não pode ser nulo ou vazio!!!");
                 }
+                Nome = novoNomeUsuario;
             }
-
-            int EditarIdade()
+            catch (ArgumentException e)
             {
-                Console.Write("Informe a Idade do Usuário: ");
-                int novaIdade = int.Parse(Console.ReadLine());
+                Console.WriteLine($"Erro: {e.Message}");
+            }
+        }
 
-                if (novaIdade < 18)
-                {
-                    novaIdade = ValidarIdade();
-                }
-                return novaIdade;
+        // Criar prop DataNascimentoUsuario e adicionar validação para calcular a idade do usuário.
+        private void EditarDataNascimento() // Alterar para EditarDataNascimentoUsuario, 
+        {
+            Console.Write("Informe a Idade do Usuário: ");
+            int novaIdade = int.Parse(Console.ReadLine());
+
+            if (novaIdade < 18)
+            {
+
             }
         }
 
@@ -227,31 +206,25 @@ namespace gitTeste.Entities
         {
         }
 
-        public void GetPermissoes()
-        {
-        }
-
-        private string SelecionarPropriedade()
+        private void SelecionarPropriedade(string propCampo)
         {
             Console.Write("Selecione o Campo que seja alterar: ");
-            var editarProp = Console.ReadLine();
+            var campo = Console.ReadLine();
 
-            switch (editarProp)
+            switch (campo)
             {
-                // Criar metodo 
                 case "1":
-                    editarProp = Enumerados.CampoPropriedade.NomeCampo.ToString();
+                    propCampo = Enumerados.CampoPropriedade.NomeCampo.ToString();
                     break;
                 case "2":
-                    editarProp = Enumerados.CampoPropriedade.IdadeCampo.ToString();
+                    propCampo = Enumerados.CampoPropriedade.DataNascimentoCampo.ToString();
                     break;
                 case "3":
-                    editarProp = Enumerados.CampoPropriedade.TipoUsuarioCampo.ToString(); // Aqui adicionar o método GetTipoUsuario
+                    propCampo = Enumerados.CampoPropriedade.TipoUsuarioCampo.ToString();
                     break;
                 default:
                     throw new Exception("Nenhum campo selecionado!!");
             }
-            return editarProp;
         }
 
         // Adicionar validação, ao qual será possível escolher antes de informar o tipo ex: SELECIONE O TIPO DE DOCUMENTO CPF = 1 E RG = 2. Ao escolher chamar validação de cada
@@ -274,16 +247,25 @@ namespace gitTeste.Entities
             }
         }
 
-        public void AdicionarUsuarioLista(string nome, string cpf, int idade, Enumerados.UsuarioTipo tipoUsuario)
+        // Criar método que adiciona usuário (sem idade) na lista de usuários.
+        public void AdicionarUsuarioLista(string nome, string cpf, int idade, Enumerados.UsuarioTipo tipoUsuario, DateTime dataNascimento)
         {
-            ListaUsuarios.Add(new Users { Nome = nome, Cpf = cpf, Idade = idade, UsuarioTipo = tipoUsuario });
+            ListaUsuarios.Add(new Users
+            {
+                Nome = nome,
+                Cpf = tratarDados.MascaraCpf(cpf),
+                Idade = idade,
+                UsuarioTipo = tipoUsuario,
+                DataNascimento = dataNascimento
+            });
         }
 
-        // 
         public void SearchUser(string requestUser)
         {
             try
             {
+                Console.Write("Informe Nome do usuário que deseja procurar: ");
+
                 requestUser = Console.ReadLine();
                 if (requestUser == null || string.IsNullOrWhiteSpace(requestUser))
                 {
@@ -308,6 +290,25 @@ namespace gitTeste.Entities
             catch (NullReferenceException ex)
             {
                 Console.WriteLine($"Erro: {ex.Message}");
+            }
+        }
+
+        public void SepararUsuarioTipo()
+        {
+            if (ListaUsuarios.FirstOrDefault(c => c.UsuarioTipo == Enumerados.UsuarioTipo.Nenhum) != null)
+            {
+                foreach (var separar in ListaUsuarios)
+                {
+                    if (Enum.TryParse(separar.UsuarioTipo.ToString(), true, out Enumerados.UsuarioTipo usuarioTipo) && usuarioTipo != Enumerados.UsuarioTipo.Nenhum)
+                    {
+                        separar.AtribuirUsuarioPermissao();
+                        continue;
+                    }
+                    if (separar.UsuarioTipo == 0 || separar.UsuarioTipo == Enumerados.UsuarioTipo.Nenhum)
+                    {
+                        // usuariosSemTipoDefinido.Add(separar);
+                    }
+                }
             }
         }
 

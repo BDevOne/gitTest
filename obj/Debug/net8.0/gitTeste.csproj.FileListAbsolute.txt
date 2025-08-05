@@ -42,3 +42,17 @@ C:\Users\pedro.carvalho\Desktop\gitTeste\obj\Debug\net8.0\gitTeste.csproj.Assemb
 C:\Users\pedro.carvalho\Desktop\gitTeste\obj\Debug\net8.0\gitTeste.csproj.CopyComplete
 C:\Users\pedro.carvalho\Desktop\gitTeste\bin\Debug\net8.0\Firebase.Auth.dll
 C:\Users\pedro.carvalho\Desktop\gitTeste\bin\Debug\net8.0\System.ServiceModel.dll
+c:\Users\pedro.carvalho\Desktop\gitTeste\bin\Debug\net8.0\Humanizer.dll
+c:\Users\pedro.carvalho\Desktop\gitTeste\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.dll
+c:\Users\pedro.carvalho\Desktop\gitTeste\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Abstractions.dll
+c:\Users\pedro.carvalho\Desktop\gitTeste\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Design.dll
+c:\Users\pedro.carvalho\Desktop\gitTeste\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Relational.dll
+c:\Users\pedro.carvalho\Desktop\gitTeste\bin\Debug\net8.0\Microsoft.Extensions.Caching.Abstractions.dll
+c:\Users\pedro.carvalho\Desktop\gitTeste\bin\Debug\net8.0\Microsoft.Extensions.Caching.Memory.dll
+c:\Users\pedro.carvalho\Desktop\gitTeste\bin\Debug\net8.0\Microsoft.Extensions.Configuration.Abstractions.dll
+c:\Users\pedro.carvalho\Desktop\gitTeste\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.dll
+c:\Users\pedro.carvalho\Desktop\gitTeste\bin\Debug\net8.0\Microsoft.Extensions.DependencyModel.dll
+c:\Users\pedro.carvalho\Desktop\gitTeste\bin\Debug\net8.0\Microsoft.Extensions.Logging.dll
+c:\Users\pedro.carvalho\Desktop\gitTeste\bin\Debug\net8.0\Microsoft.Extensions.Options.dll
+c:\Users\pedro.carvalho\Desktop\gitTeste\bin\Debug\net8.0\Microsoft.Extensions.Primitives.dll
+c:\Users\pedro.carvalho\Desktop\gitTeste\bin\Debug\net8.0\Mono.TextTemplating.dll
